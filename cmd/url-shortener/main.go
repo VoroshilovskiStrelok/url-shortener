@@ -6,6 +6,9 @@ import (
 	"url-shortener/internal/config"
 	"url-shortener/internal/lib/logger/sl"
 	"url-shortener/internal/storage/sqlite"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 const (
@@ -28,23 +31,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	id, err := storage.SaveURL("https://google.com", "google")
-	if err != nil {
-		log.Error("failed to save url", sl.Err(err))
-		os.Exit(1)
-	}
+	router := chi.NewRouter()
 
-	log.Info("saved url", slog.Int64("id", id))
-
-	_, err = storage.SaveURL("https://google.com", "google")
-	if err != nil {
-		log.Error("failed to save url", sl.Err(err))
-		os.Exit(1)
-	}
-
-	_ = storage
-
-	// TODO: init router:chi, "chi render"
+	router.Use(middleware.RequestID)
+	//router.Use(middleware.RealIP) чекнуть айпишник который зашел
+	router.Use(middleware.Logger)
+	router.Use(mwLogger.New(log))
+	router.Use(middleware.Recoverer)
+	router.Use(middleware.URLFormat)
 
 	// TODO: run server
 

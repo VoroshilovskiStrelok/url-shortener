@@ -92,3 +92,4 @@ func (s *Storage) GetURL(alias string) (string, error) {
 }
 
 //дописать func (s *Storage) DeleteURL(alias string) error
+// TODO: implement GetURLs
