@@ -12,8 +12,8 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
+	"url-shortener/internal/http-server/handlers/url/mocks"
 	"url-shortener/internal/http-server/handlers/url/save"
-	"url-shortener/internal/http-server/handlers/url/save/mocks"
 	"url-shortener/internal/lib/logger/handlers/slogdiscard"
 )
 
